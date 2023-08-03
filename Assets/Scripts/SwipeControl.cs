@@ -1,32 +1,37 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SwipeControl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class SwipeControl : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    private Vector2 origin;
-    private Vector2 direction;
+    private Vector2 pointerDownPosition;
+    private Vector2 pointerUpPosition;
 
-    private void Awake()
-    {
-        direction = Vector2.zero;
-    }
+    private const float minSwipeDistance = 50f;
+
+    public GameManager gameManager;
+
     public void OnPointerDown(PointerEventData eventData)
     {
-        origin = eventData.position;
-    }
-    public void OnDrag(PointerEventData eventData)
-    {
-        Vector2 CurPos = eventData.position;
-        Vector2 dirRaw = CurPos - origin;
-        direction = dirRaw.normalized;
-    }
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        direction = Vector2.zero;
+        pointerDownPosition = eventData.position;
     }
 
-    public Vector2 GetDir()
+    public void OnPointerUp(PointerEventData eventData)
     {
-        return direction;
+        pointerUpPosition = eventData.position;
+        DetectSwipe();
+    }
+
+    private void DetectSwipe()
+    {
+        float swipeDistance = Vector2.Distance(pointerDownPosition, pointerUpPosition);
+
+        if (swipeDistance < minSwipeDistance)
+        {
+            // Swipe distance too short, ignore
+            return;
+        }
+
+        Vector2 swipeDirection = pointerUpPosition - pointerDownPosition;
+        gameManager.ReportSwipe(swipeDirection.normalized);
     }
 }

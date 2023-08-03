@@ -1,18 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlantClass : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int Level = 1;
+    public enum Group
     {
-        
+        A,
+        B,
+        C,
+        D
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Transform UpPosition;
+    public Transform DownPosition;
+    public Transform LeftPosition;
+    public Transform RightPosition;
 }
