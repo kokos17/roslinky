@@ -7,8 +7,7 @@ public class PlantClass : MonoBehaviour
     {
         A,
         B,
-        C,
-        D
+        C
     }
 
     public Transform UpPosition;
